@@ -3668,14 +3668,14 @@ namespace WPEFramework {
                     client = parameters["callsign"].String();
                 }
                 bool isApplicationBeingDestroyed = false;
-            	gLaunchDestroyMutex.lock();
+            	gDestroyMutex.lock();
             	if (gDestroyApplications.find(client) != gDestroyApplications.end())
             	{
                 	isApplicationBeingDestroyed = true;
             	}
-            	gLaunchDestroyMutex.unlock();
             	if (isApplicationBeingDestroyed)
             	{
+		gDestroyMutex.unlock();
                 std::cout << "ignoring suspend for " << client << " as it is being destroyed " << std::endl;
 		result=false;
 		response["message"] = "failed to suspend application";
