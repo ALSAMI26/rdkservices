@@ -3675,9 +3675,11 @@ namespace WPEFramework {
             	}
             	gLaunchDestroyMutex.unlock();
             	if (isApplicationBeingDestroyed)
-            	{	
+            	{
                 std::cout << "ignoring suspend for " << client << " as it is being destroyed " << std::endl;
-                return false;
+		result=false;
+		response["message"] = "failed to suspend application";
+                returnResponse(result);
             	}
                 PluginHost::IStateControl* stateControl(mCurrentService->QueryInterfaceByCallsign<PluginHost::IStateControl>(callsign));
                 if (stateControl) {
