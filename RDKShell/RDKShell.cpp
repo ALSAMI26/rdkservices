@@ -3658,7 +3658,18 @@ namespace WPEFramework {
                 uint32_t status;
                 const string callsign = parameters["callsign"].String();
                 std::cout << "about to suspend " << callsign << std::endl;
-
+                bool isApplicationBeingDestroyed = false;
+            	gLaunchDestroyMutex.lock();
+            	if (gDestroyApplications.find(client) != gDestroyApplications.end())
+            	{
+                	isApplicationBeingDestroyed = true;
+            	}
+            	gLaunchDestroyMutex.unlock();
+            	if (isApplicationBeingDestroyed)
+            	{	
+                std::cout << "ignoring setvisibility for " << client << " as it is being destroyed " << std::endl;
+                return false;
+            	}	
                 PluginHost::IStateControl* stateControl(mCurrentService->QueryInterfaceByCallsign<PluginHost::IStateControl>(callsign));
                 if (stateControl) {
                   stateControl->Request(PluginHost::IStateControl::SUSPEND);
