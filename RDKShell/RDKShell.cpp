@@ -3667,7 +3667,7 @@ namespace WPEFramework {
             	gLaunchDestroyMutex.unlock();
             	if (isApplicationBeingDestroyed)
             	{	
-                std::cout << "ignoring setvisibility for " << client << " as it is being destroyed " << std::endl;
+                std::cout << "ignoring suspend for " << client << " as it is being destroyed " << std::endl;
                 return false;
             	}	
                 PluginHost::IStateControl* stateControl(mCurrentService->QueryInterfaceByCallsign<PluginHost::IStateControl>(callsign));
